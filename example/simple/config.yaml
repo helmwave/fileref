@@ -1,0 +1,3 @@
+filerefs:
+  greeting:
+    src: ./greeting.yml
