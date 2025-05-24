@@ -1,9 +1,10 @@
-package main
+package internal
 
 import (
-	"github.com/hairyhenderson/gomplate/v4"
 	"io"
 	"os"
+
+	"github.com/hairyhenderson/gomplate/v4"
 )
 
 var DefaultGomplate = &gomplate.Config{
@@ -13,16 +14,16 @@ var DefaultGomplate = &gomplate.Config{
 }
 
 func (f *Config) Gomplate() error {
-	f.g.Stdout = f.File()
+	f.G.Stdout = f.File()
 	defer f.File().Close()
 
-	err := gomplate.Run(f.ctx, f.g)
+	err := gomplate.Run(f.Ctx, f.G)
 
 	if err != nil && f.Strict {
-		f.l.Error("Failed to gomplate: %v", err)
+		f.L.Error("Failed to gomplate: %v", err)
 		panic(err)
 	} else if err != nil {
-		f.l.Warn("Failed to gomplate: %v", err)
+		f.L.Warn("Failed to gomplate: %v", err)
 	}
 
 	return err
@@ -33,9 +34,9 @@ func (f *Config) Writer() io.Writer {
 }
 
 func (f *Config) File() *os.File {
-	file, err := os.Create(f.dst)
+	file, err := os.Create(f.Dst)
 	if err != nil {
-		f.l.Error("Failed to create file: %v", err)
+		f.L.Error("Failed to create file: %v", err)
 		panic(err)
 	}
 

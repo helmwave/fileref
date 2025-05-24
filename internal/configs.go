@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"github.com/hairyhenderson/gomplate/v4"
@@ -6,9 +6,10 @@ import (
 
 type FileRefs map[string]*Config
 
+// SetNames overrides the names of the FileRefs based on their keys.
 func (rf FileRefs) SetNames() {
 	for n, f := range rf {
-		f.name = n
+		f.Name = n
 	}
 }
 
