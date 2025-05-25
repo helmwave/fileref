@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"io"
 	"os"
 
@@ -16,6 +17,9 @@ var DefaultGomplate = &gomplate.Config{
 func (f *Config) runGomplate() error {
 	f.g.Stdout = f.File()
 	defer f.File().Close()
+
+	fmt.Println(f.g)
+	fmt.Println(f.g.Input)
 
 	err := gomplate.Run(f.ctx, f.g)
 
@@ -36,7 +40,7 @@ func (f *Config) Writer() io.Writer {
 func (f *Config) File() *os.File {
 	file, err := os.Create(f.Dst)
 	if err != nil {
-		f.l.Error("Failed to create file: %v", err)
+		f.l.Error("Failed to create file: ", err)
 		panic(err)
 	}
 

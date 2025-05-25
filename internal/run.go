@@ -11,16 +11,18 @@ const (
 	RenderCopy Render = iota
 	RenderGomplate
 	RenderSOPS
+	RenderBase64
 )
 
 var extensionToRender = map[string]Render{
-	".sops": RenderSOPS,
-	".tpl":  RenderGomplate,
-	".tmpl": RenderGomplate,
+	".sops":   RenderSOPS,
+	".base64": RenderBase64,
+	".tpl":    RenderGomplate,
+	".tmpl":   RenderGomplate,
 }
 
 func (r Render) String() string {
-	return [...]string{"RENDER_COPY", "RENDER_GOMPLATE", "RENDER_SOPS"}[r]
+	return [...]string{"RENDER_COPY", "RENDER_GOMPLATE", "RENDER_SOPS", "RENDER_B64"}[r]
 }
 
 func (f *Config) render(r Render) error {
@@ -29,8 +31,8 @@ func (f *Config) render(r Render) error {
 		return f.fetch()
 	case RenderGomplate:
 		return f.fetchAndRender()
-	case RenderSOPS:
-		return f.fetchAndSops()
+	case RenderBase64:
+		return f.fetchAndBase64()
 	default:
 		return fmt.Errorf("unknown render: %d", r)
 	}

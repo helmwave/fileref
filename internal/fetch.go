@@ -24,5 +24,5 @@ func (f *Config) disableGomplateProcessing() {
 	q.Set("type", "text/plain")
 	f.Src.URL.RawQuery = q.Encode()
 
-	f.l.Debug("disabling runGomplate processing", "source", f.Src.URL.String())
+	f.l.Debug("disabling gomplate processing", "source", f.Src.URL.String())
 }
