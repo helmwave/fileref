@@ -13,17 +13,17 @@ var DefaultGomplate = &gomplate.Config{
 	Experimental: true,
 }
 
-func (f *Config) Gomplate() error {
-	f.G.Stdout = f.File()
+func (f *Config) runGomplate() error {
+	f.g.Stdout = f.File()
 	defer f.File().Close()
 
-	err := gomplate.Run(f.Ctx, f.G)
+	err := gomplate.Run(f.ctx, f.g)
 
 	if err != nil && f.Strict {
-		f.L.Error("Failed to gomplate: %v", err)
+		f.l.Error("Failed to gomplate: %v", err)
 		panic(err)
 	} else if err != nil {
-		f.L.Warn("Failed to gomplate: %v", err)
+		f.l.Warn("Failed to gomplate: %v", err)
 	}
 
 	return err
@@ -36,9 +36,13 @@ func (f *Config) Writer() io.Writer {
 func (f *Config) File() *os.File {
 	file, err := os.Create(f.Dst)
 	if err != nil {
-		f.L.Error("Failed to create file: %v", err)
+		f.l.Error("Failed to create file: %v", err)
 		panic(err)
 	}
 
 	return file
+}
+
+func (f *Config) SetGomplate(g *gomplate.Config) {
+	f.g = g
 }

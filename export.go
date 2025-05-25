@@ -7,7 +7,3 @@ type Config = internal.Config
 func New(name string) *Config {
 	return internal.New(name)
 }
-
-func Run(f *Config) error {
-	return f.Fetch()
-}

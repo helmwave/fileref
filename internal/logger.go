@@ -13,3 +13,11 @@ func init() {
 	slog.SetDefault(DefaultLogger)
 	slog.Info("DefaultLogger initialized")
 }
+
+func (f *Config) SetLogger(l *slog.Logger) {
+	if l == nil {
+		l = slog.Default()
+	}
+
+	f.l = l.With("FileRef", f.Name)
+}
